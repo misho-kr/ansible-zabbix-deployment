@@ -1,0 +1,22 @@
+---
+# Configure Zabbix server
+
+- name: customize Zabbix configuration file
+  become: yes
+  lineinfile: dest={{ zabbix_server_conf_file }}
+              regexp="^[#\s]*{{ item.key }}\s*="
+              line="{{ item.key }}={{ item.value }}"
+  with_dict: "{{ zabbix_config_params }}"
+  notify:
+    - restart zabbix server
+    - restart zabbix frontend server
+
+- name: enable and define timezone in Zabbix frontend configuration file
+  become: yes
+  replace: dest={{ zabbix_frontend_conf_file }}
+              regexp="#\s*php_value\s*date.timezone.+$"
+              replace="php_value date.timezone {{ zabbix_timezone }}"
+              backup=yes
+  register: zabbix_timezone_enabled
+  notify:
+    - restart zabbix frontend server

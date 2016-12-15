@@ -1,0 +1,29 @@
+---
+
+zabbix_installation_method:         repo
+# zabbix_installation_method:         download
+
+pip_installation_method:            repo
+# pip_installation_method:            download
+
+zabbix_remove_stale_version:        False
+zabbix_stale_files:
+  - "{{ zabbix_conf_file }}"
+
+zabbix_can_run_docker:              False
+
+zabbix_register_with_server:        True
+
+# zabbix_api_connection_method:       ssh
+zabbix_api_connection_method:       local
+
+zabbix_agent_port:                  10050
+
+zabbix_host_interfaces:
+  - type: 1
+    main: 1
+    useip: 0
+    dns: "{{ ansible_fqdn }}"
+    port: "{{ zabbix_agent_port }}"
+    ip: ""
+    # ip: "{{ ansible_default_ipv4[ 'address' ] }}"

@@ -1,0 +1,8 @@
+---
+# Install Zabbix server
+
+- include: install_deb_from_repo.yml
+  when: "{{ ansible_pkg_mgr == 'apt' and zabbix_installation_method == 'repo' }}"
+
+- include: create_mysql_database.yml
+- include: configuration.yml

@@ -1,0 +1,9 @@
+---
+
+- name: restart zabbix server
+  become: yes
+  service: name={{ zabbix_service_name }} state=restarted
+
+- name: restart zabbix frontend server
+  become: yes
+  service: name={{ zabbix_frontend_service_name }} state=restarted

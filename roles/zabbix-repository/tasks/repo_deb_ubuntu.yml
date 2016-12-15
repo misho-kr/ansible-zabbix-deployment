@@ -1,0 +1,45 @@
+---
+# Zabbix Official package repository
+
+- debug: var=home_dir
+- debug: var=current_dir
+
+# -------------------------------------------------------------
+#  1. download repo config package
+
+- name: download deb package with Zabbix repo configuration
+  connection: local
+  run_once: true
+  get_url: url="{{ zabbix_repo_package }}"
+           dest="{{ current_dir }}/{{ download_cache }}"
+
+- set_fact:
+    zabbix_repo_deb_package:   "{{ zabbix_repo_package | basename }}"
+
+- name: transfer deb package with Zabbix repo configuration
+  copy: src="{{ current_dir }}/{{ download_cache }}/{{ zabbix_repo_deb_package }}"
+        dest="{{ remote_home_dir }}/{{ zabbix_repo_deb_package }}"
+
+# -------------------------------------------------------------
+#  2. install package with Zabbix repo configuration
+
+- name: add Zabbix Ubuntu repository signing key
+  become: yes
+  apt_key: data="{{ lookup('file', 'zabbix.pgp') }}" state=present
+  when: "{{ zabbix_repo_to_add }}"
+
+- name: install deb package with Zabbix repo configuration
+  become: yes
+  apt: deb="{{ zabbix_repo_deb_package }}"
+  register: deb_repo_zabbix_config_added
+
+- name: update package data
+  become: yes
+  apt: update_cache=yes
+  when: "{{ deb_repo_zabbix_config_added.changed }}"
+
+# -------------------------------------------------------------
+#  3. clean
+
+- name: clean up deb package with Zabbix repo configuration
+  file: name="{{ zabbix_repo_deb_package }}" state=absent

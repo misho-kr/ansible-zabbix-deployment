@@ -1,0 +1,63 @@
+---
+
+zabbix_package_version:             "latest"
+zabbix_packages:
+  - zabbix-agent
+  - zabbix-sender
+
+zabbix_service_name:                "zabbix-agent"
+
+# Zabbix host groups
+
+zabbix_servers_host_group:          "Zabbix servers"
+
+zabbix_default_host_group:          "Ansible registered hosts"
+zabbix_additional_host_groups:
+    - "Discovered hosts"
+    - "Linux servers"
+
+zabbix_host_groups:                 "{{ [ zabbix_default_host_group ] + zabbix_additional_host_groups }}"
+
+# Zabbix templates
+
+zabbix_host_os_template:            "Template OS Linux"
+zabbix_host_templates:
+    - "{{ zabbix_host_os_template }}"
+    - "Template ICMP Ping"
+
+zabbix_server_os_template:          "Template OS Linux"
+zabbix_server_templates:
+    - "{{ zabbix_host_os_template }}"
+    - "Template App Zabbix Server"
+
+# configuration file parameters ---------------------------------------
+
+zabbix_conf_file:                   "/etc/zabbix/zabbix_agentd.conf"
+zabbix_sudoers_file:                "/etc/sudoers.d/zabbix"
+
+zabbix_logsize:                     128
+zabbix_enable_remote_commands:      1
+
+zabbix_config_params:
+    "LogFileSize":                  "{{ zabbix_logsize }}"
+    "Server":                       "{{ groups[ 'zabbix-server' ] | join(',') }}"
+    "ServerActive":                 "{{ groups[ 'zabbix-server' ] | join(',') }}"
+    "Hostname":                     "{{ ansible_fqdn }}"
+    "EnableRemoteCommands":         "{{ zabbix_enable_remote_commands }}"
+
+zabbix_server_config_params:
+    "LogFileSize":                  "{{ zabbix_logsize }}"
+    "Server":                       "127.0.0.1"
+    "ServerActive":                 "127.0.0.1"
+    "Hostname":                     "Zabbix server"
+    "EnableRemoteCommands":         "{{ zabbix_enable_remote_commands }}"
+
+# misc installation items ---------------------------------------------
+
+ansible_required_packages:
+  - python-pip
+
+ansible_required_pip_packages:
+  - zabbix-api
+
+ansible_required_pip_tarballs:      []

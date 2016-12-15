@@ -1,0 +1,13 @@
+---
+
+zabbix_installation_method:             repo
+# zabbix_installation_method:             download
+zabbix_repo_to_add:                     True
+
+zabbix_repo_package_by_os:
+  Ubuntu:       "http://repo.zabbix.com/zabbix/3.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.2-1+{{ ansible_lsb.codename }}_all.deb"
+  Debian:       "http://repo.zabbix.com/zabbix/3.2/debian/pool/main/z/zabbix-release/zabbix-release_3.2-1+{{ ansible_lsb.codename }}_all.deb"
+  RHEL:         "TBD"
+  CentOS:       "TBD"
+
+zabbix_repo_package:  "{{ zabbix_repo_package_by_os[ ansible_distribution ] | default('none') }}"

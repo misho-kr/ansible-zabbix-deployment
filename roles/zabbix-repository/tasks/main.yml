@@ -1,0 +1,22 @@
+---
+# Official Zabbix package repository(ies)
+
+# -------------------------------------------------------------
+#  prepare
+
+- name: create folder for downloaded files
+  connection: local
+  run_once: true
+  file: name="{{ current_dir }}/{{ download_cache }}" state=directory
+
+# -------------------------------------------------------------
+#  install
+
+- include: repo_deb_ubuntu.yml
+  when: "{{ ansible_pkg_mgr == 'apt' and zabbix_installation_method == 'repo' }}"
+
+# - include: repo_yum.yml
+#   when: ansible_pkg_mgr == "yum"
+
+# - include: repo_dnf.yml
+#   when: ansible_pkg_mgr == "dnf"
