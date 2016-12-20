@@ -6,6 +6,7 @@ Automate the installation of Zabbix server, agents and plugins:
 * Zabbix server
 * Zabbix proxy
 * Zabbix agent
+* JMX gateway
 
 ### Preparation
 
@@ -81,5 +82,6 @@ Options can be set at runtime to change the playbook actions:
 * [LDAP authenticaiton setup](https://github.com/CumulusNetworks/ansible-role-activedirectory-auth-client) on the server
 * Add support to run the playbook on RedHat, Fedora amd Ubuntu 16
 * Deployment of Zabbix proxy server
+* Deployment of JMX Gateway
 * Fix the bug that breaks the MySQL schema creation and submit PR to Ansible
-* Implement deployment of Zabbix proxy server
+* Create host screen after registering an agent host with Zabbix server

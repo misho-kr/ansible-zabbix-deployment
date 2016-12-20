@@ -33,7 +33,7 @@ zabbix_config_params:
     "LogFileSize":                  "{{ zabbix_logsize }}"
     "Server":                       "{{ groups[ 'zabbix-server' ] | join(',') }}"
     "ServerActive":                 "{{ groups[ 'zabbix-server' ] | join(',') }}"
-    "Hostname":                     "{{ ansible_fqdn }}"
+    "Hostname":                     "{{ zabbix_host_name_override | default(ansible_fqdn) }}"
     "EnableRemoteCommands":         "{{ zabbix_enable_remote_commands }}"
 
 zabbix_server_config_params:
