@@ -17,5 +17,5 @@
 
 - name: allow zabbix user to restart services and run docker commands
   become: yes
-  copy: src=zabbixcan_run_docker.sudoers dest="{{ zabbix_sudoers_file }}" mode=0440
+  copy: src=zabbix_can_run_docker.sudoers dest="{{ zabbix_sudoers_file }}" mode=0440
   when: "{{ zabbix_can_run_docker | bool }}"

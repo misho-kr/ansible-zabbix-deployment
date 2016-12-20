@@ -9,14 +9,19 @@
   run_once: true
   file: name="{{ current_dir }}/{{ download_cache }}" state=directory
 
+- include: install_ansible_required.yml
+
 # -------------------------------------------------------------
 #  install
+
+- include: repo_package.yml
+  when: "{{ zabbix_installation_method == 'repo' }}"
 
 - include: repo_deb_ubuntu.yml
   when: "{{ ansible_pkg_mgr == 'apt' and zabbix_installation_method == 'repo' }}"
 
-# - include: repo_yum.yml
-#   when: ansible_pkg_mgr == "yum"
+- include: repo_yum.yml
+  when: "{{ ansible_pkg_mgr == 'yum' }}"
 
 # - include: repo_dnf.yml
 #   when: ansible_pkg_mgr == "dnf"

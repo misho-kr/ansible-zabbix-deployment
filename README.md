@@ -9,9 +9,9 @@ Automate the installation of Zabbix server, agents and plugins:
 
 ### Preparation
 
-1. Install Ansible by following these [instructions](http://docs.ansible.com/intro_installation.html)
-1. Download the playbook from the GitHub repository, as a tar-ball or execute git-clone
-1. Create [inventory](http://docs.ansible.com/intro_inventory.html) file from [template](hosts.empty) and add the target hosts
+1. Install Ansible ([instructions](http://docs.ansible.com/intro_installation.html))
+1. Get the playbook from the GitHub repository
+1. Create [inventory](http://docs.ansible.com/intro_inventory.html) file from [this template](hosts.empty) and add the Zabbix hosts
 
 ```
 > cat hosts
@@ -30,13 +30,13 @@ zabbix-client-3.example.com
 
 ### Zabbix server deployment
 
-The procedire consists of 3 steps:
+The procedure consists of 3 steps of which the 2nd one is manual and executes by you:
 
 1. Install server software packages
 1. Connect to server with browser and complete the configuration
 1. Install agent on the server host
 
-The second step requires you to connect to the server with browser and input several config parameters. Without that the agent deployment would fail. Becasue of this restriction the server deployment is implemented in 2 phases.
+The deployment is split into 2 phases because you have to connect to the server with browser and input some config parameters, as per server installation instruction. If there is a way to get around it please share it.
 
 ```bash
 $ ansible-playbook -v -i hosts site.yml --limit zabbix-server -t server
@@ -82,3 +82,4 @@ Options can be set at runtime to change the playbook actions:
 * Add support to run the playbook on RedHat, Fedora amd Ubuntu 16
 * Deployment of Zabbix proxy server
 * Fix the bug that breaks the MySQL schema creation and submit PR to Ansible
+* Implement deployment of Zabbix proxy server

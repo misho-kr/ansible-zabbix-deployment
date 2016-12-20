@@ -19,11 +19,37 @@ zabbix_api_connection_method:       local
 
 zabbix_agent_port:                  10050
 
+# connect to Zabbix agent by IP (1) or by hostname (0)
+zabbix_host_interface_useip:        1
+
 zabbix_host_interfaces:
   - type: 1
     main: 1
-    useip: 0
+    useip: "{{ zabbix_host_interface_useip }}"
     dns: "{{ ansible_fqdn }}"
     port: "{{ zabbix_agent_port }}"
-    ip: ""
-    # ip: "{{ ansible_default_ipv4[ 'address' ] }}"
+    ip: "{{ ansible_default_ipv4[ 'address' ] }}"
+    # ip: ""
+
+# Zabbix host groups
+
+zabbix_servers_host_group:          "Zabbix servers"
+
+zabbix_default_host_group:          "Ansible registered hosts"
+zabbix_additional_host_groups:
+#    - "Discovered hosts"
+    - "Linux servers"
+
+zabbix_app_specific_host_groups:    []
+
+# Zabbix templates
+
+zabbix_host_os_template:            "Template OS Linux"
+zabbix_host_extra_templates:
+    - "Template ICMP Ping"
+
+zabbix_host_app_specific_templates:    []
+
+zabbix_server_os_template:          "Template OS Linux"
+zabbix_server_extra_templates:
+    - "Template App Zabbix Server"

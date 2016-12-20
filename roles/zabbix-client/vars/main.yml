@@ -9,26 +9,17 @@ zabbix_service_name:                "zabbix-agent"
 
 # Zabbix host groups
 
-zabbix_servers_host_group:          "Zabbix servers"
-
-zabbix_default_host_group:          "Ansible registered hosts"
-zabbix_additional_host_groups:
-    - "Discovered hosts"
-    - "Linux servers"
-
-zabbix_host_groups:                 "{{ [ zabbix_default_host_group ] + zabbix_additional_host_groups }}"
+zabbix_host_groups:                 "{{ [ zabbix_default_host_group ] +
+                                        zabbix_additional_host_groups +
+                                        zabbix_app_specific_host_groups }}"
 
 # Zabbix templates
 
-zabbix_host_os_template:            "Template OS Linux"
-zabbix_host_templates:
-    - "{{ zabbix_host_os_template }}"
-    - "Template ICMP Ping"
+zabbix_host_templates:              "{{ [ zabbix_host_os_template ] +
+                                        zabbix_host_extra_templates +
+                                        zabbix_host_app_specific_templates }}"
 
-zabbix_server_os_template:          "Template OS Linux"
-zabbix_server_templates:
-    - "{{ zabbix_host_os_template }}"
-    - "Template App Zabbix Server"
+zabbix_server_templates:            "{{ [zabbix_server_os_template ] + zabbix_server_extra_template }}"
 
 # configuration file parameters ---------------------------------------
 

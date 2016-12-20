@@ -4,10 +4,12 @@
 - include: pre_requisites.yml
   when: "{{ zabbix_api_connection_method == 'ssh' }}"
 
-- name: create Zabbix host group
+- debug: var=zabbix_host_groups
+
+- name: create Zabbix host groups
   connection: "{{ zabbix_api_connection_method }}"
   run_once: True
-  zabbix_group: host_groups="{{ zabbix_default_host_group }}" state=present
+  zabbix_group: host_groups="{{ zabbix_host_groups }}" state=present
                 server_url="http://{{ item }}/zabbix"
                 login_user="{{ zabbix_server_username }}"
                 login_password="{{ zabbix_server_password }}"
