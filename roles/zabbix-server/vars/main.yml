@@ -5,9 +5,14 @@ zabbix_packages:
   - zabbix-server-mysql
   - zabbix-frontend-php
   - snmp
+  - php5-ldap
+
+jmx_gateway_packages:
+  - zabbix-java-gateway
 
 zabbix_service_name:                  "zabbix-server"
 zabbix_frontend_service_name:         "apache2"
+jmx_gateway_service_name:             "zabbix-java-gateway"
 
 # -------------------------------------------------------------
 #  mysql database statements
@@ -40,10 +45,14 @@ mysql_schema_script:            "create.sql"
 
 # configuration file parameters ---------------------------------------
 
-zabbix_server_conf_file:             "/etc/zabbix/zabbix_server.conf"
-zabbix_frontend_conf_file:           "/etc/apache2/conf-enabled/zabbix.conf"
+zabbix_server_conf_file:            "/etc/zabbix/zabbix_server.conf"
+zabbix_frontend_conf_file:          "/etc/apache2/conf-enabled/zabbix.conf"
+jmx_gateway_conf_file:              "/etc/zabbix/zabbix_java_gateway.conf"
 
 zabbix_logsize:                     128
+
+jmx_listen_port:                    10052
+jmx_num_of_pollers:                 3
 
 zabbix_config_params:
     "LogFileSize":                  "{{ zabbix_logsize }}"
@@ -51,3 +60,13 @@ zabbix_config_params:
     "DBName":                       "{{ mysql_zabbix_database }}"
     "DBUser":                       "{{ mysql_zabbix_username }}"
     "DBPassword":                   "{{ mysql_zabbix_password }}"
+
+jmx_gateway_config_params:
+    "LISTEN_IP":                    "127.0.0.1"
+    "LISTEN_PORT":                  "{{ jmx_listen_port }}"
+    "START_POLLERS":                "{{ jmx_num_of_pollers }}"
+
+zabbix_jmx_gateway_config_params:
+    "JavaGateway":                  "127.0.0.1"
+    "JavaGatewayPort":              "{{ jmx_listen_port }}"
+    "StartJavaPollers":             "{{ jmx_num_of_pollers }}"

@@ -3,7 +3,7 @@
 
 - name: install Ansible required package (apt)
   become: yes
-  apt: deb="{{ ansible_required_package }}"
+  apt: name="{{ ansible_required_package }}"
   when: "{{ ansible_pkg_mgr == 'apt' }}"
 
 - name: install Ansible required package (yum)

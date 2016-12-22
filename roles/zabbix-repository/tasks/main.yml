@@ -10,6 +10,7 @@
   file: name="{{ current_dir }}/{{ download_cache }}" state=directory
 
 - include: install_ansible_required.yml
+  when: "{{ ansible_required_package != 'none' }}"
 
 # -------------------------------------------------------------
 #  install
